@@ -175,7 +175,7 @@ export default class extends PureComponent {
     const lines = this.lines.slice(0, -1);
     this.clear();
     this.simulateDrawingLines({ lines, immediate: true });
-    this.triggerOnChange()
+    this.triggerOnChange();
   };
 
   getSaveData = () => {
@@ -252,7 +252,8 @@ export default class extends PureComponent {
       window.setTimeout(() => {
         // Save this line with its props instead of this.props
         this.points = points;
-        this.saveLine({ brushColor, brushRadius });
+        let shouldTriggerOnChange = false;
+        this.saveLine({ brushColor, brushRadius, shouldTriggerOnChange });
       }, curTime);
     });
   };
@@ -402,7 +403,7 @@ export default class extends PureComponent {
     this.ctx.temp.stroke();
   };
 
-  saveLine = ({ brushColor, brushRadius } = {}) => {
+  saveLine = ({ brushColor, brushRadius, shouldTriggerOnChange } = {}) => {
     if (this.points.length < 2) return;
 
     // Save as new line
@@ -424,12 +425,15 @@ export default class extends PureComponent {
     // Clear the temporary line-drawing canvas
     this.ctx.temp.clearRect(0, 0, width, height);
 
-    this.triggerOnChange()
+    if (!shouldTriggerOnChange) {
+      return;
+    }
+    this.triggerOnChange();
   };
 
   triggerOnChange = () => {
-    this.props.onChange && this.props.onChange(this)
-  }
+    this.props.onChange && this.props.onChange(this);
+  };
 
   clear = () => {
     this.lines = [];
