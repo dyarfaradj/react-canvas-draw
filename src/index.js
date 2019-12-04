@@ -252,8 +252,8 @@ export default class extends PureComponent {
       window.setTimeout(() => {
         // Save this line with its props instead of this.props
         this.points = points;
-        let shouldTriggerOnChange = false;
-        this.saveLine({ brushColor, brushRadius, shouldTriggerOnChange });
+        let notTriggerOnChange = true;
+        this.saveLine({ brushColor, brushRadius, notTriggerOnChange });
       }, curTime);
     });
   };
@@ -403,7 +403,7 @@ export default class extends PureComponent {
     this.ctx.temp.stroke();
   };
 
-  saveLine = ({ brushColor, brushRadius, shouldTriggerOnChange } = {}) => {
+  saveLine = ({ brushColor, brushRadius, notTriggerOnChange } = {}) => {
     if (this.points.length < 2) return;
 
     // Save as new line
@@ -425,7 +425,7 @@ export default class extends PureComponent {
     // Clear the temporary line-drawing canvas
     this.ctx.temp.clearRect(0, 0, width, height);
 
-    if (!shouldTriggerOnChange) {
+    if (notTriggerOnChange) {
       return;
     }
     this.triggerOnChange();

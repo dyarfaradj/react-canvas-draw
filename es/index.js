@@ -165,8 +165,8 @@ var _default = (_temp = _class = function (_PureComponent) {
         window.setTimeout(function () {
           // Save this line with its props instead of this.props
           _this.points = points;
-          var shouldTriggerOnChange = false;
-          _this.saveLine({ brushColor: brushColor, brushRadius: brushRadius, shouldTriggerOnChange: shouldTriggerOnChange });
+          var notTriggerOnChange = true;
+          _this.saveLine({ brushColor: brushColor, brushRadius: brushRadius, notTriggerOnChange: notTriggerOnChange });
         }, curTime);
       });
     };
@@ -341,7 +341,7 @@ var _default = (_temp = _class = function (_PureComponent) {
       var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           brushColor = _ref4.brushColor,
           brushRadius = _ref4.brushRadius,
-          shouldTriggerOnChange = _ref4.shouldTriggerOnChange;
+          notTriggerOnChange = _ref4.notTriggerOnChange;
 
       if (_this.points.length < 2) return;
 
@@ -364,7 +364,7 @@ var _default = (_temp = _class = function (_PureComponent) {
       // Clear the temporary line-drawing canvas
       _this.ctx.temp.clearRect(0, 0, width, height);
 
-      if (!shouldTriggerOnChange) {
+      if (notTriggerOnChange) {
         return;
       }
       _this.triggerOnChange();
